@@ -263,6 +263,7 @@
       font-weight: 700;
       line-height: 1.05;
       letter-spacing: -.02em;
+      min-width: max-content;
     }
 
     /* ────────────────────────────────────────────
@@ -278,6 +279,9 @@
     }
 
     .card {
+      position:relative;
+      overflow: hidden;
+      cursor: pointer;
       width: max(240px, 45%);
       flex-shrink: 0;
       background: var(--paper);
@@ -336,6 +340,15 @@
     }
     .card-title a:hover { border-color: var(--ink); color:#2563eb; }
 
+    .card-title a::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+    }
     .card-desc {
       font-size: .78rem;
       color: var(--muted);
