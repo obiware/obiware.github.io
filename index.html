@@ -521,7 +521,10 @@
             Parlons de votre projet
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>
-          <a href="#missions" class="btn btn-ghost">Voir mes dernières missions</a>
+          <a href="#contact" class="btn btn-ghost js-phone" data-p="34 30 99 33 60" rel="nofollow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>M'appeler</span>
+          </a>
         </div>
         <ul class="hero-proof">
           <li>Un seul interlocuteur, du diagnostic à la livraison</li>
@@ -951,7 +954,12 @@
       <h2>Un projet, une question, un doute&nbsp;? Parlons-en.</h2>
       <p class="lead">Décrivez-moi votre situation en quelques lignes&nbsp;: je vous réponds rapidement, et le premier échange ne vous engage à rien.</p>
       <div class="contact-ctas">
-        <a href="mailto:alexandre.gourdel@obiware.fr" class="btn btn-primary">
+        <!-- Le numéro n'apparaît jamais en clair dans le HTML : il est reconstitué en JS au clic (anti-scraping). -->
+        <a href="#contact" class="btn btn-primary js-phone" data-p="34 30 99 33 60" rel="nofollow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>M'appeler directement</span>
+        </a>
+        <a href="mailto:alexandre.gourdel@obiware.fr" class="btn btn-ghost">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
           alexandre.gourdel@obiware.fr
         </a>
@@ -959,9 +967,6 @@
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg>
           LinkedIn
         </a>
-        <!-- Téléphone à ajouter plus tard :
-        <a href="tel:+33XXXXXXXXX" class="btn btn-ghost">06 XX XX XX XX</a>
-        -->
       </div>
       <p class="contact-meta">Obiware - Alexandre Gourdel EI · Nîmes, Gard (30)</p>
     </div>
@@ -987,6 +992,27 @@
       </details>
     </div>
   </footer>
+
+  <script>
+    /* Anti-scraping du numéro : il est stocké à l'envers, par blocs, dans data-p,
+       et n'est reconstitué qu'au clic d'un humain.
+       - Sur mobile : l'appel est lancé directement.
+       - Sur ordinateur : le numéro s'affiche (re-cliquer lance l'appli téléphone si dispo). */
+    document.querySelectorAll('.js-phone').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        var digits = btn.dataset.p.split(' ').reverse().map(function (b) { return b.split('').reverse().join(''); });
+        var shown = digits.join(' ');
+        var tel = 'tel:+33' + digits.join('').slice(1);
+        if (btn.getAttribute('href') === tel) return; // déjà révélé : laisse le lien tel: agir
+        e.preventDefault();
+        document.querySelectorAll('.js-phone').forEach(function (b) {
+          b.setAttribute('href', tel);
+          b.querySelector('span').textContent = shown;
+        });
+        if (window.matchMedia('(pointer: coarse)').matches) window.location.href = tel;
+      });
+    });
+  </script>
 
 </body>
 </html>
