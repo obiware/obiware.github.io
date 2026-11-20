@@ -3,587 +3,989 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alexandre Gourdel — Architecture Logicielle &amp; Automatisation</title>
+  <title>Obiware - Alexandre Gourdel EI · Développement logiciel à Nîmes</title>
+  <meta name="description" content="Développeur senior basé à Nîmes : reprise d'applications legacy, modernisation et cloudification, CI/CD et Kubernetes, automatisation de vos processus, missions ponctuelles. Interventions dans tout le Gard.">
+  <link rel="canonical" href="https://obiware.fr/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:url" content="https://obiware.fr/">
+  <meta property="og:title" content="Obiware - Alexandre Gourdel EI · Développement logiciel à Nîmes">
+  <meta property="og:description" content="Développeur senior à Nîmes : je reprends, modernise et automatise vos applications. Interventions dans tout le Gard.">
+  <meta property="og:image" content="https://obiware.fr/assets/moi.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Obiware - Alexandre Gourdel EI",
+    "alternateName": "Obiware",
+    "url": "https://obiware.fr/",
+    "image": "https://obiware.fr/assets/moi.jpg",
+    "email": "alexandre.gourdel@obiware.fr",
+    "founder": { "@type": "Person", "name": "Alexandre Gourdel", "jobTitle": "Développeur logiciel senior" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Nîmes", "addressRegion": "Occitanie", "addressCountry": "FR" },
+    "areaServed": [
+      { "@type": "City", "name": "Nîmes" },
+      { "@type": "AdministrativeArea", "name": "Gard" }
+    ],
+    "identifier": { "@type": "PropertyValue", "propertyID": "SIRET", "value": "48926805200060" },
+    "sameAs": ["https://www.linkedin.com/in/alexandre-gourdel-031aa0124/"],
+    "knowsAbout": ["Reprise d'applications legacy", "Modernisation d'applications", "Cloud", "Kubernetes", "CI/CD", "Rust", "PHP", "Automatisation de processus"]
+  }
+  </script>
+
   <style>
     /* ────────────────────────────────────────────
        FONTS (self-hosted)
     ──────────────────────────────────────────── */
-    @font-face {
-      font-family: 'Inter';
-      src: url('./assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
-      font-weight: 100 900;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Inter';
-      src: url('./assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
-      font-weight: 100 900;
-      font-style: italic;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Syne';
-      src: url('./assets/fonts/Syne-VariableFont_wght.ttf') format('truetype');
-      font-weight: 400 800;
-      font-style: normal;
-      font-display: swap;
-    }
+    /* NB : les noms des fichiers de assets/fonts ne correspondent pas à leur contenu réel.
+       Les fichiers ci-dessous ont été choisis d'après leurs métadonnées internes (OS/2). */
+    @font-face { font-family: 'Inter'; src: url('./assets/fonts/Inter_18pt-Thin.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Inter'; src: url('./assets/fonts/Inter_24pt-Regular.ttf') format('truetype'); font-weight: 400; font-style: italic; font-display: swap; }
+    @font-face { font-family: 'Inter'; src: url('./assets/fonts/Inter_18pt-Bold.ttf') format('truetype'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Inter'; src: url('./assets/fonts/Inter_18pt-Black.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Inter'; src: url('./assets/fonts/Inter_18pt-Regular.ttf') format('truetype'); font-weight: 700; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Inter Display'; src: url('./assets/fonts/Inter_24pt-BoldItalic.ttf') format('truetype'); font-weight: 700; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Inter Display'; src: url('./assets/fonts/Inter_28pt-Light.ttf') format('truetype'); font-weight: 800; font-style: normal; font-display: swap; }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ink:     #111118;
-      --paper:   #f2f2ef;
-      --white:   #ffffff;
-      --muted:   #888888;
-      --galaxy:  #0d1b2e;
-      --border:  #dedede;
-      --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      --font-display: 'Syne', system-ui, sans-serif;
+      /* Pierre de Nîmes, garrigue et terre cuite */
+      --stone:      #f4efe6;
+      --stone-2:    #ebe3d5;
+      --white:      #fffdf9;
+      --ink:        #1d1a16;
+      --ink-soft:   #4a443c;
+      --muted:      #7a7266;
+      --line:       #ddd3c2;
+      --night:      #1c1915;
+      --night-2:    #2a251f;
+      --on-night:   #f1ebe0;
+      --on-night-2: #b9b0a2;
+      --accent:     #b0442c;   /* terre cuite */
+      --accent-2:   #d9734f;
+      --olive:      #6b7445;   /* garrigue */
+      --radius:     14px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --font-display: 'Inter Display', 'Inter', system-ui, sans-serif;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 
     body {
       font-family: var(--font);
-      background: var(--paper);
+      background: var(--stone);
       color: var(--ink);
-      line-height: 1.7;
-      font-size: 16px;
+      line-height: 1.65;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ────────────────────────────────────────────
-       HEADER
-    ──────────────────────────────────────────── */
-    #header {
-      background: var(--galaxy);
-      color: var(--paper);
-      padding: 5rem 2rem 4.5rem;
-      text-align: center;
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+    section { padding: 6rem 0; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-size: .78rem; font-weight: 600;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .eyebrow::before {
+      content: ''; width: 28px; height: 2px; background: currentColor;
     }
 
-    .avatar {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(242, 242, 239, 0.12);
-      margin-bottom: 1.75rem;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    #header h1 {
+    h2 {
       font-family: var(--font-display);
-      font-size: clamp(1.5rem, 6vw, 2.25rem);
+      font-size: clamp(2rem, 4.4vw, 3rem);
       font-weight: 700;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-    }
-
-    .fonction {
-      margin-top: .45rem;
-      font-size: .8rem;
-      color: rgb(208 159 68);
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-
-    .socials {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: .75rem 1.25rem;
-      margin-top: 1.75rem;
-    }
-
-    .socials a {
-      color: #2563eb;
-      text-decoration: none;
-      font-size: .78rem;
-      letter-spacing: .1em;
-      border-bottom: 1px solid rgba(242, 242, 239, 0.22);
-      padding-bottom: 2px;
-      transition: color .2s, border-color .2s;
-    }
-    .socials a:hover { color: var(--paper); border-color: var(--paper); }
-
-    .cta {
-      display: inline-block;
-      margin-top: 2.25rem;
-      padding: .7rem 2.25rem;
-      border: 1.5px solid rgba(242, 242, 239, 0.38);
-      color: var(--paper);
-      text-decoration: none;
-      font-size: .78rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      transition: background .2s, border-color .2s;
-    }
-    .cta:hover {
-      background: rgba(242, 242, 239, 0.07);
-      border-color: rgba(242, 242, 239, 0.6);
-    }
-
-    /* ────────────────────────────────────────────
-       SHARED LAYOUT
-    ──────────────────────────────────────────── */
-    .wrap {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 0 1.75rem;
-    }
-
-    .section-label {
-      display: block;
-      font-size: .7rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: rgb(208 159 68);
-      margin-bottom: 2rem;
-    }
-
-    /* ────────────────────────────────────────────
-       2 — RÉSUMÉ
-    ──────────────────────────────────────────── */
-    #resume {
-      background: var(--white);
-      padding: 4.5rem 1.75rem;
-    }
-    #resume .wrap { text-align: center; }
-
-    #resume .section-label { text-align: left; }
-
-    #resume p {
-      font-size: 0.8rem;
-      line-height: 1.95;
-      word-spacing: .06em;
-      max-width: 680px;
-      margin: 0 auto 1.5rem;
-      color: #2e2e2e;
-      text-align: start;
-    }
-    #resume p:last-child { margin-bottom: 0; }
-
-    /* ────────────────────────────────────────────
-       3 — Q&R
-    ──────────────────────────────────────────── */
-    #qr {
-      background: var(--paper);
-      padding: 4.5rem 1.75rem;
-    }
-
-    .qr-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-      align-items: start;
-    }
-
-    .qr-block { margin-bottom: 0; }
-
-    .qr-block h3 {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 600;
-      letter-spacing: -.01em;
-      text-transform: none;
-      color: var(--ink);
-      margin-bottom: 1.25rem;
-      padding-bottom: .75rem;
-      border-bottom: 2px solid var(--ink);
-      line-height: 1.4;
-    }
-    .qr-block h3 .normal {
-      font-family: var(--font);
-      font-weight: 400;
-      font-size: .82rem;
-      letter-spacing: 0;
-      color: var(--muted);
-      margin-top: .25rem;
-    }
-
-    .qr-block ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: .55rem;
-    }
-
-    .qr-block li {
-      font-size: .92rem;
-      line-height: 1.5;
-      display: flex;
-      align-items: baseline;
-      gap: .6rem;
-    }
-
-    .qr-block h3::before {
-      content: '\25CF';
-      font-size: 1rem;
-      flex-shrink: 0;
-      position: relative;
-      top: -.1em;
-      margin-right: 10px;
-    }
-
-    .qr-block:first-child h3::before { color: #4caf50; }
-    .qr-block:last-child  h3::before { color: #e05252; }
-
-    .qr-block li::before {
-      content: '-';
-      font-size: 1rem;
-      flex-shrink: 0;
-      position: relative;
-      top: -.1em;
-      margin-right: 10px;
-    }
-
-    /* ────────────────────────────────────────────
-       4 — PHRASE PRÉFÉRÉE
-    ──────────────────────────────────────────── */
-    #quote {
-      background: var(--galaxy);
-      color: var(--paper);
-      padding: 5.5rem 1.75rem;
-      text-align: center;
-    }
-    .quote-label {
-      font-size: .7rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: rgb(208 159 68);
-      margin-bottom: 1.5rem;
-    }
-    #quote blockquote {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 13vw, 6rem);
-      font-weight: 700;
-      line-height: 1.05;
+      line-height: 1.08;
       letter-spacing: -.02em;
-      min-width: max-content;
+      max-width: 22ch;
     }
+    .lead {
+      margin-top: 1.25rem;
+      font-size: 1.15rem;
+      color: var(--ink-soft);
+      max-width: 62ch;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .55rem;
+      padding: .9rem 1.5rem;
+      border-radius: 999px;
+      font-weight: 600; font-size: .95rem;
+      text-decoration: none;
+      transition: transform .15s ease, background .2s, color .2s, border-color .2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #973721; }
+    .btn-ghost { border: 1.5px solid var(--line); color: var(--ink); background: transparent; }
+    .btn-ghost:hover { border-color: var(--ink); }
+    .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
 
     /* ────────────────────────────────────────────
-       CARDS (Projets, Articles, Vidéos)
+       NAV
     ──────────────────────────────────────────── */
-    .cards-section { padding: 4.5rem 1.75rem; }
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(244, 239, 230, .88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav .wrap {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; gap: 1rem;
+    }
+    .brand {
+      font-family: var(--font-display);
+      font-weight: 800; font-size: 1.3rem;
+      letter-spacing: -.01em;
+      text-decoration: none;
+    }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 1.75rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: .9rem; font-weight: 500; color: var(--ink-soft);
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a.btn-primary, .nav-links a.btn-primary:hover { color: #fff; }
+    .nav .btn { padding: .55rem 1.1rem; font-size: .88rem; }
 
-    .cards-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.25rem;
-      justify-content: center;
+    /* ────────────────────────────────────────────
+       HERO
+    ──────────────────────────────────────────── */
+    .hero { padding: 5rem 0 6rem; position: relative; overflow: hidden; }
+    .hero .wrap {
+      display: grid; grid-template-columns: 1.25fr .85fr; gap: 4rem; align-items: center;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .4rem .9rem .4rem .6rem;
+      background: var(--white); border: 1px solid var(--line); border-radius: 999px;
+      font-size: .85rem; font-weight: 500; color: var(--ink-soft);
+      margin-bottom: 1.75rem;
+    }
+    .hero-tag .dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--olive);
+      box-shadow: 0 0 0 4px rgba(107, 116, 69, .18);
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -.03em;
+    }
+    .hero h1 .company {
+      display: block;
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      font-family: var(--font);
+      font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--muted);
+      margin-bottom: .9rem;
+    }
+    .hero h1 .main {
+      display: block;
+      font-size: clamp(2.6rem, 6.4vw, 4.75rem);
+    }
+    .hero h1 .main em { font-style: normal; color: var(--accent); }
+    .hero-sub {
+      margin-top: 1.75rem;
+      font-size: 1.2rem;
+      color: var(--ink-soft);
+      max-width: 34em;
+    }
+    .hero-sub strong { color: var(--ink); font-weight: 600; }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; }
+
+    .hero-proof {
+      display: flex; flex-wrap: wrap; gap: .5rem 1.75rem;
+      margin-top: 2.5rem; list-style: none;
+      font-size: .92rem; color: var(--ink-soft);
+    }
+    .hero-proof li { display: flex; align-items: center; gap: .5rem; }
+    .hero-proof li::before {
+      content: ''; width: 16px; height: 16px; flex-shrink: 0;
+      background: var(--olive);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+              mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
     }
 
+    .hero-photo { position: relative; justify-self: center; max-width: 400px; width: 100%; }
+    .hero-photo::before {
+      content: ''; position: absolute; inset: 18px -18px -18px 18px;
+      border-radius: 24px; background: var(--accent); opacity: .9;
+    }
+    .hero-photo img {
+      position: relative; border-radius: 24px; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 30%;
+      width: 100%; height: auto;
+      box-shadow: 0 20px 50px rgba(29, 26, 22, .18);
+    }
+    .hero-photo figcaption {
+      position: absolute; left: -24px; bottom: 28px;
+      background: var(--white); border: 1px solid var(--line);
+      border-radius: 12px; padding: .75rem 1rem;
+      box-shadow: 0 10px 30px rgba(29, 26, 22, .12);
+      font-size: .85rem; line-height: 1.35;
+    }
+    .hero-photo figcaption strong { display: block; font-size: .95rem; }
+    .hero-photo figcaption span { color: var(--muted); }
+
+    /* ────────────────────────────────────────────
+       PROFIL
+    ──────────────────────────────────────────── */
+    #profil { background: var(--white); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .profil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .profil-text p { color: var(--ink-soft); margin-top: 1.1rem; }
+    .profil-text p strong { color: var(--ink); }
+    .pillars { display: grid; gap: 1rem; }
+    .pillar {
+      display: grid; grid-template-columns: 48px 1fr; gap: 1rem;
+      padding: 1.4rem; border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--stone);
+    }
+    .pillar .ico {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: var(--ink); color: var(--stone);
+    }
+    .pillar .ico svg { width: 24px; height: 24px; }
+    .pillar h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .25rem; }
+    .pillar p { font-size: .95rem; color: var(--ink-soft); }
+
+    /* ────────────────────────────────────────────
+       SERVICES
+    ──────────────────────────────────────────── */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 3.5rem;
+    }
+    .service {
+      background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 2rem 1.75rem; display: flex; flex-direction: column;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+    }
+    .service:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(29, 26, 22, .08); border-color: #cbbfab; }
+    .service .num {
+      font-family: var(--font-display); font-weight: 700; font-size: .9rem; color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+    .service h3 {
+      font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; line-height: 1.2;
+      letter-spacing: -.01em; margin-bottom: .75rem;
+    }
+    .service > p { color: var(--ink-soft); font-size: .97rem; }
+    .service ul { list-style: none; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px dashed var(--line); display: grid; gap: .45rem; }
+    .service li { font-size: .9rem; color: var(--ink-soft); padding-left: 1.1rem; position: relative; }
+    .service li::before { content: ''; position: absolute; left: 0; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .service.highlight { background: var(--night); color: var(--on-night); border-color: var(--night); }
+    .service.highlight > p, .service.highlight li { color: var(--on-night-2); }
+    .service.highlight ul { border-color: #4a4239; }
+    .service.highlight .num { color: var(--accent-2); }
+
+    /* ────────────────────────────────────────────
+       MISSIONS
+    ──────────────────────────────────────────── */
+    #missions { background: var(--night); color: var(--on-night); }
+    #missions .eyebrow { color: var(--accent-2); }
+    #missions .lead { color: var(--on-night-2); }
+    .missions { display: grid; gap: 1.5rem; margin-top: 3.5rem; }
+    .mission {
+      display: grid; grid-template-columns: 300px 1fr; gap: 2.5rem;
+      background: var(--night-2); border: 1px solid #3a332b; border-radius: 18px;
+      padding: 2.25rem;
+    }
+    .mission-head .tag {
+      display: inline-block; font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--accent-2); margin-bottom: .75rem;
+    }
+    .mission-head h3 {
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; line-height: 1.15; letter-spacing: -.01em;
+    }
+    .mission-head .stack { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1.25rem; }
+    .mission-head .stack span {
+      font-size: .78rem; padding: .25rem .65rem; border-radius: 999px;
+      border: 1px solid #4a4239; color: var(--on-night-2);
+    }
+    .mission-body { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem 2rem; }
+    .mission-body h4 {
+      font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--on-night-2);
+      font-weight: 600; margin-bottom: .5rem;
+    }
+    .mission-body p { font-size: .97rem; color: var(--on-night); opacity: .92; }
+    .mission-body .results { grid-column: 1 / -1; }
+    .results ul { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .75rem; }
+    .results li {
+      background: rgba(217, 115, 79, .1); border: 1px solid rgba(217, 115, 79, .28);
+      border-radius: 10px; padding: .8rem 1rem; font-size: .93rem; line-height: 1.45;
+    }
+    .results li strong { display: block; color: var(--accent-2); font-size: .98rem; margin-bottom: .1rem; }
+
+    /* ────────────────────────────────────────────
+       AUTOMATISATION
+    ──────────────────────────────────────────── */
+    .auto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .auto-text p { color: var(--ink-soft); margin-top: 1.1rem; }
+    .auto-text p strong { color: var(--ink); }
+    .examples { display: grid; gap: .75rem; }
+    .example {
+      display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start;
+      background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.25rem;
+    }
+    .example .before {
+      font-size: .9rem; color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(176, 68, 44, .55);
+    }
+    .example .after { font-size: .97rem; font-weight: 500; margin-top: .2rem; }
+    .example .arrow {
+      width: 34px; height: 34px; border-radius: 50%; background: var(--olive); color: #fff;
+      display: grid; place-items: center; margin-top: .1rem;
+    }
+    .example .arrow svg { width: 18px; height: 18px; }
+
+    /* ────────────────────────────────────────────
+       ONE SHOT
+    ──────────────────────────────────────────── */
+    #ponctuel { background: var(--stone-2); }
+    .oneshot-head { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: end; }
+    .oneshot-head .note {
+      background: var(--white); border-left: 4px solid var(--accent); border-radius: 0 12px 12px 0;
+      padding: 1.25rem 1.5rem; color: var(--ink-soft); font-size: .98rem;
+    }
+    .oneshot-head .note strong { color: var(--ink); }
+    .tasks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 3rem; }
+    .task {
+      background: var(--white); border-radius: 12px; padding: 1.4rem 1.25rem;
+      border: 1px solid var(--line);
+    }
+    .task h3 { font-size: 1rem; font-weight: 700; margin-bottom: .35rem; line-height: 1.3; }
+    .task p { font-size: .9rem; color: var(--ink-soft); line-height: 1.5; }
+
+    /* ────────────────────────────────────────────
+       MÉTHODE
+    ──────────────────────────────────────────── */
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-top: 3.5rem; counter-reset: step; list-style: none; }
+    .step { position: relative; padding-top: 1.5rem; border-top: 2px solid var(--ink); counter-increment: step; }
+    .step::before {
+      content: counter(step, decimal-leading-zero);
+      font-family: var(--font-display); font-weight: 800; font-size: 2.25rem; color: var(--accent);
+      line-height: 1; display: block; margin-bottom: .9rem;
+    }
+    .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .4rem; }
+    .step p { font-size: .95rem; color: var(--ink-soft); }
+
+    /* ────────────────────────────────────────────
+       LOCAL
+    ──────────────────────────────────────────── */
+    #local { background: var(--accent); color: #fff; position: relative; overflow: hidden; }
+    #local .eyebrow { color: #ffd9c9; }
+    #local .lead { color: #fbe5dc; }
+    .local-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: center; }
+    .towns-card {
+      background: rgba(0, 0, 0, .14); border: 1px solid rgba(255, 255, 255, .2);
+      border-radius: 20px; padding: 2rem;
+    }
+    .towns-card .big {
+      font-family: var(--font-display); font-weight: 800; font-size: clamp(3.5rem, 8vw, 5.5rem); line-height: .9;
+      letter-spacing: -.03em;
+    }
+    .towns-card .big-sub { font-size: 1rem; color: #fbe5dc; margin-top: .5rem; margin-bottom: 1.5rem; }
+    .towns { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; }
+    .towns li {
+      font-size: .87rem; padding: .35rem .8rem; border-radius: 999px;
+      background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .22);
+    }
+    .towns li.home { background: #fff; color: var(--accent); font-weight: 700; border-color: #fff; }
+
+    /* ────────────────────────────────────────────
+       CARDS (Articles, Vidéos)
+    ──────────────────────────────────────────── */
+    .cards-grid { display: grid; gap: 1.25rem; margin-top: 2.5rem; }
+    .cards-grid.c4 { grid-template-columns: repeat(4, 1fr); }
+    .cards-grid.c3 { grid-template-columns: repeat(3, 1fr); }
     .card {
-      position:relative;
-      overflow: hidden;
-      cursor: pointer;
-      width: max(240px, 45%);
-      flex-shrink: 0;
-      background: var(--paper);
-      border: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
+      position: relative; overflow: hidden; background: var(--white);
+      border: 1px solid var(--line); border-radius: var(--radius);
+      display: flex; flex-direction: column;
       transition: transform .18s ease, box-shadow .18s ease;
     }
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, .07);
-    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(29, 26, 22, .09); }
+    .card-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--stone-2); }
+    .card-body { padding: 1rem 1.1rem 1.2rem; }
+    .card-kind { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: .35rem; }
+    .card-title { font-size: .95rem; font-weight: 600; line-height: 1.4; }
+    .card-title a { text-decoration: none; }
+    .card-title a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+    .card:hover .card-title a { color: var(--accent); }
+    #articles { padding-bottom: 3rem; }
+    #videos { padding-top: 3rem; }
 
-    /* Real image thumbnail (YouTube) */
-    .card-img {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* Placeholder thumbnail (articles, projets) */
-    .card-ph {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: var(--galaxy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .card-ph span {
-      font-size: .6rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: rgba(242, 242, 239, 0.2);
-    }
-
-    .card-body {
-      padding: .9rem 1rem 1rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: .4rem;
-    }
-
-    .card-title {
-      font-size: .85rem;
-      font-weight: 600;
-      line-height: 1.45;
-    }
-    .card-title a {
-      color: var(--ink);
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: border-color .2s;
-    }
-    .card-title a:hover { border-color: var(--ink); color:#2563eb; }
-
-    .card-title a::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 1;
-    }
-    .card-desc {
-      font-size: .78rem;
-      color: var(--muted);
-      line-height: 1.55;
-    }
+    /* ────────────────────────────────────────────
+       CONTACT
+    ──────────────────────────────────────────── */
+    #contact { background: var(--night); color: var(--on-night); text-align: center; }
+    #contact .eyebrow { color: var(--accent-2); }
+    #contact h2 { margin: 0 auto; max-width: 20ch; }
+    #contact .lead { margin: 1.25rem auto 0; color: var(--on-night-2); }
+    .contact-ctas { display: flex; justify-content: center; flex-wrap: wrap; gap: .75rem; margin-top: 2.5rem; }
+    #contact .btn-ghost { color: var(--on-night); border-color: #4a4239; }
+    #contact .btn-ghost:hover { border-color: var(--on-night); }
+    .contact-meta { margin-top: 2rem; font-size: .92rem; color: var(--on-night-2); }
 
     /* ────────────────────────────────────────────
        FOOTER
     ──────────────────────────────────────────── */
-    footer {
-      background: var(--galaxy);
-      color: rgba(242, 242, 239, 0.28);
-      text-align: center;
-      padding: 1.75rem;
-      font-size: .73rem;
-      letter-spacing: .06em;
-    }
-    footer a { color: inherit; }
+    footer { background: #141210; color: #8f877b; padding: 2.5rem 0; font-size: .85rem; }
+    footer .wrap { display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: start; }
+    footer strong { color: var(--on-night); font-weight: 600; }
+    footer a { color: var(--on-night-2); }
+    footer details summary { cursor: pointer; color: var(--on-night-2); }
+    footer details[open] summary { margin-bottom: .75rem; }
+    footer details p { margin-top: .35rem; max-width: 60ch; }
 
     /* ────────────────────────────────────────────
-       RESPONSIVE — MOBILE
+       RESPONSIVE
     ──────────────────────────────────────────── */
-    @media (max-width: 700px) {
-      .qr-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    @media (max-width: 1000px) {
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .tasks, .steps { grid-template-columns: 1fr 1fr; }
+      .cards-grid.c4 { grid-template-columns: 1fr 1fr; }
+      .mission { grid-template-columns: 1fr; gap: 1.5rem; }
     }
-
-    @media (max-width: 560px) {
-      #header { padding: 3.5rem 1.25rem 3rem; }
-      .cards-section, #resume, #qr, #quote { padding: 3.5rem 1.25rem; }
-
-      .cards-grid {
-        flex-direction: column;
-        align-items: center;
-      }
-      .card {
-        width: 100%;
-        max-width: 340px;
-      }
+    @media (max-width: 860px) {
+      section { padding: 4.5rem 0; }
+      .nav-links li:not(:last-child) { display: none; }
+      .hero { padding: 3rem 0 4.5rem; }
+      .hero .wrap, .profil-grid, .auto-grid, .local-grid, .oneshot-head { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-photo { max-width: 260px; order: -1; justify-self: start; }
+      .hero-photo img { aspect-ratio: 1 / 1; }
+      .hero-photo figcaption { left: auto; right: -12px; }
+      .cards-grid.c3 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      body { font-size: 16px; }
+      .wrap { padding: 0 1rem; }
+      .services-grid, .tasks, .steps, .cards-grid.c3, .cards-grid.c4, .mission-body { grid-template-columns: 1fr; }
+      .mission { padding: 1.5rem; }
+      .hero-photo { max-width: 220px; }
+      .hero-photo::before { inset: 12px -12px -12px 12px; }
+      .hero-photo figcaption { right: -8px; bottom: 16px; }
+      footer .wrap { grid-template-columns: 1fr; }
+      .brand { font-size: 1.15rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ══════════════════ 1 — HEADER ══════════════════ -->
-  <section id="header">
-    <img src="./assets/moi.jpg" alt="Alexandre Gourdel" class="avatar">
-    <h1>Alexandre Gourdel</h1>
-    <p class="fonction">Architecture Logicielle &nbsp;·&nbsp; Automatisation &nbsp;·&nbsp; Organisation technique</p>
-    <nav class="socials" aria-label="Réseaux sociaux">
-      <a href="https://www.linkedin.com/in/alexandre-gourdel-031aa0124/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://x.com/AlexandreGrdl" target="_blank" rel="noopener noreferrer">X / Twitter</a>
-      <a href="mailto:alexandre.gourdel@obiware.fr">alexandre.gourdel@obiware.fr</a>
-    </nav>
-    <a href="https://www.linkedin.com/in/alexandre-gourdel-031aa0124/" class="cta" target="_blank" rel="noopener noreferrer">Je veux discuter</a>
-  </section>
-
-  <!-- ══════════════════ 2 — RÉSUMÉ ══════════════════ -->
-  <section id="resume">
+  <!-- ══════════════════ NAV ══════════════════ -->
+  <header class="nav">
     <div class="wrap">
-      <span class="section-label">Résumé</span>
-      <p>Depuis presque 10 ans, j'évolue dans des environnements variés, au contact d'interlocuteurs aux métiers et aux enjeux très différents. Que ce soit pour résoudre des problèmes techniques pointus, concevoir des architectures complexes, ou gérer des dynamiques humaines et organisationnelles, j'ai toujours privilégié une approche pragmatique et orientée business. Mon expérience m'a appris à naviguer entre les défis haut niveau (stratégie, vision produit) et les détails concrets (code, performance, automatisation), avec un seul objectif&nbsp;: livrer des solutions qui fonctionnent, qui s'adaptent aux réalités du terrain, et qui créent de la valeur.</p>
-      <p>Ce qui me motive&nbsp;? Comprendre les besoins réels, proposer des réponses adaptées, et accompagner les équipes pour transformer les idées en résultats tangibles. Que le projet soit technique, managérial ou les deux, je m'attache à allier rigueur et flexibilité, pour avancer efficacement sans perdre de vue l'essentiel&nbsp;: l'impact concret.</p>
+      <a href="#top" class="brand">Obiware<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#missions">Réalisations</a></li>
+        <li><a href="#automatisation">Automatisation</a></li>
+        <li><a href="#local">Nîmes &amp; Gard</a></li>
+        <li><a href="#contact" class="btn btn-primary">Me contacter</a></li>
+      </ul>
     </div>
-  </section>
+  </header>
 
-  <!-- ══════════════════ 3 — Q&R ══════════════════ -->
-  <section id="qr">
+  <main id="top">
+
+  <!-- ══════════════════ HERO ══════════════════ -->
+  <section class="hero">
     <div class="wrap">
-      <span class="section-label">Les Sujets ...</span>
-      <div class="qr-grid">
-      <div class="qr-block">
-        <h3>... dont on peut me parler</h3>
-        <ul>
-          <li>L'adéquation entre l'architecture logique et le développement économique</li>
-          <li>L'équilibre d'un système socio-technique</li>
-          <li>La POO comme concept dépassant les langages objets</li>
-          <li>Les calculs de rentabilité</li>
-          <li>L'automatisation de processus métier complexe</li>
-          <li>Le magret de canard sauce au miel</li>
+      <div>
+        <p class="hero-tag"><span class="dot"></span>Basé à Nîmes · Interventions dans tout le Gard</p>
+        <h1>
+          <span class="company">Obiware - Alexandre Gourdel EI</span>
+          <span class="main">Développement logiciel à <em>Nîmes</em></span>
+        </h1>
+        <p class="hero-sub">
+          Votre application vieillit, ralentit, coûte cher à maintenir ou plus personne n'ose y toucher&nbsp;?
+          Je suis <strong>développeur senior</strong>&nbsp;: je reprends, modernise et automatise vos outils
+          logiciels &mdash; et je sais <strong>encadrer vos équipes ou vos prestataires</strong> pour que le projet aille au bout.
+        </p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-primary">
+            Parlons de votre projet
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#missions" class="btn btn-ghost">Voir mes dernières missions</a>
+        </div>
+        <ul class="hero-proof">
+          <li>Un seul interlocuteur, du diagnostic à la livraison</li>
+          <li>Je code moi-même</li>
+          <li>Premier échange gratuit</li>
         </ul>
       </div>
-      <div class="qr-block">
-        <h3>... dont on ne peut pas <span class="normal">(mais si quand même)</span></h3>
-        <ul>
-          <li>Les frameworks d'injection de dépendances</li>
-          <li>Les systèmes de mesure et de billing dans les SAAS</li>
-          <li>La containeurisation et cloudification d'application legacies</li>
-          <li>RUST</li>
-          <li>La simulation de transport</li>
-          <li>La Ratatouille</li>
+      <figure class="hero-photo">
+        <img src="./assets/moi.jpg" alt="Alexandre Gourdel, développeur logiciel senior à Nîmes" width="1086" height="1086">
+        <figcaption>
+          <strong>Alexandre Gourdel</strong>
+          <span>Développeur senior · Nîmes</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ══════════════════ PROFIL ══════════════════ -->
+  <section id="profil">
+    <div class="wrap profil-grid">
+      <div class="profil-text">
+        <span class="eyebrow">Qui suis-je</span>
+        <h2>Un développeur senior qui a les mains dans le code… et la tête dans votre métier.</h2>
+        <p>
+          Depuis une dizaine d'années, je conçois, reprends et fais évoluer des logiciels dans des contextes très variés&nbsp;:
+          PME, éditeurs de logiciels, équipes produit, projets internes. J'ai l'habitude de passer du
+          <strong>problème technique pointu</strong> à la <strong>discussion avec la direction</strong> dans la même journée.
+        </p>
+        <p>
+          Mon approche est simple et pragmatique&nbsp;: comprendre ce dont vous avez <em>réellement</em> besoin,
+          proposer la solution la plus adaptée (pas forcément la plus à la mode), et livrer quelque chose
+          qui fonctionne, qui tient dans le temps et que vos équipes peuvent reprendre.
+        </p>
+        <p>
+          À la question «&nbsp;quelle est la meilleure techno&nbsp;?&nbsp;», ma réponse préférée reste
+          <strong>«&nbsp;ça dépend&nbsp;!&nbsp;»</strong> &mdash; de votre budget, de vos équipes, de vos délais. Et c'est justement mon travail de trancher avec vous.
+        </p>
+      </div>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg></div>
+          <div>
+            <h3>Développeur senior</h3>
+            <p>Je produis moi-même le code&nbsp;: Rust, PHP, JavaScript/TypeScript, scripts, API… Pas d'intermédiaire, pas de sous-traitance cachée.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div>
+            <h3>Encadrement d'équipes &amp; de prestataires</h3>
+            <p>Je pilote techniquement des développeurs, internes ou externes&nbsp;: cadrage, revues de code, arbitrages, suivi. Vous gardez la maîtrise de vos projets.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+          <div>
+            <h3>Orienté résultat et rentabilité</h3>
+            <p>Chaque choix technique est pesé en coût, en délai et en risque. Je vous parle en impact concret, pas en jargon.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ SERVICES ══════════════════ -->
+  <section id="services">
+    <div class="wrap">
+      <span class="eyebrow">Ce que je peux faire pour vous</span>
+      <h2>Des missions concrètes, pour des problèmes bien réels.</h2>
+      <p class="lead">Que vous ayez une équipe technique ou pas du tout, j'interviens là où ça coince&nbsp;: sur l'existant, sur l'infrastructure, ou sur les tâches qui vous font perdre du temps.</p>
+
+      <div class="services-grid">
+        <article class="service">
+          <span class="num">01</span>
+          <h3>Reprise d'applications legacy</h3>
+          <p>Une application critique, écrite il y a des années, dont le développeur est parti et que plus personne ne comprend&nbsp;? Je la reprends en main sans tout casser.</p>
+          <ul>
+            <li>Audit et cartographie de l'existant</li>
+            <li>Sécurisation, tests, documentation</li>
+            <li>Refonte progressive ou réécriture ciblée</li>
+          </ul>
+        </article>
+        <article class="service">
+          <span class="num">02</span>
+          <h3>Modernisation &amp; cloudification</h3>
+          <p>Rendre vos applications prêtes pour le cloud&nbsp;: plus robustes, capables d'encaisser la charge, faciles à déployer et à faire évoluer.</p>
+          <ul>
+            <li>Conteneurisation (Docker)</li>
+            <li>Applications «&nbsp;stateless&nbsp;» et scalables</li>
+            <li>Montées de version, dette technique</li>
+          </ul>
+        </article>
+        <article class="service">
+          <span class="num">03</span>
+          <h3>Modernisation d'infrastructure</h3>
+          <p>Fini les mises en production manuelles et stressantes. Des déploiements automatisés, reproductibles et sereins.</p>
+          <ul>
+            <li>Pipelines CI/CD</li>
+            <li>Kubernetes et infrastructures modernes</li>
+            <li>Supervision, sauvegardes, environnements</li>
+          </ul>
+        </article>
+        <article class="service">
+          <span class="num">04</span>
+          <h3>Automatisation &amp; workflows</h3>
+          <p>Vos équipes passent des heures à copier-coller entre des outils&nbsp;? On automatise ce qui doit l'être, pour qu'elles se concentrent sur leur vrai métier.</p>
+          <ul>
+            <li>Connexion entre vos logiciels (API)</li>
+            <li>Traitements de données, imports/exports</li>
+            <li>Processus métier automatisés</li>
+          </ul>
+        </article>
+        <article class="service">
+          <span class="num">05</span>
+          <h3>Pilotage technique</h3>
+          <p>Vous travaillez avec une agence, un prestataire ou une petite équipe interne&nbsp;? Je fais le lien entre votre besoin et ceux qui développent.</p>
+          <ul>
+            <li>Cadrage et rédaction du besoin</li>
+            <li>Encadrement et revue du travail livré</li>
+            <li>Arbitrages techniques et budgétaires</li>
+          </ul>
+        </article>
+        <article class="service highlight">
+          <span class="num">06</span>
+          <h3>Missions ponctuelles</h3>
+          <p>Pas besoin d'un grand projet pour travailler ensemble. Une tâche précise, un besoin urgent, un coup de main d'expert&nbsp;: je prends aussi les missions «&nbsp;one shot&nbsp;».</p>
+          <ul>
+            <li>Périmètre clair, devis clair</li>
+            <li>Livraison rapide</li>
+            <li><a href="#ponctuel" style="color:inherit">Voir des exemples &rarr;</a></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ MISSIONS ══════════════════ -->
+  <section id="missions">
+    <div class="wrap">
+      <span class="eyebrow">Mes 3 dernières missions</span>
+      <h2>Ce que j'ai livré récemment.</h2>
+      <p class="lead">Trois missions représentatives de ce que je fais au quotidien&nbsp;: reprendre l'existant, le rendre plus fiable et plus simple à exploiter.</p>
+
+      <div class="missions">
+
+        <article class="mission">
+          <div class="mission-head">
+            <span class="tag">Reprise de legacy</span>
+            <h3>Réécriture d'une application JavaScript vieillissante en Rust</h3>
+            <div class="stack"><span>Rust</span><span>JavaScript</span><span>Refonte</span><span>Performance</span></div>
+          </div>
+          <div class="mission-body">
+            <div>
+              <h4>Le contexte</h4>
+              <p>Une base de code JavaScript historique, devenue lourde, lente et fragile&nbsp;: chaque modification risquait d'introduire une régression, et les règles métier étaient dispersées un peu partout.</p>
+            </div>
+            <div>
+              <h4>Ce que j'ai fait</h4>
+              <p>Analyse de l'existant, extraction des règles métier, puis réécriture en Rust en modélisant le métier directement dans les types. Résultat&nbsp;: un état incohérent ne peut tout simplement plus être écrit &mdash; le compilateur le refuse.</p>
+            </div>
+            <div class="results">
+              <h4>Les bénéfices</h4>
+              <ul>
+                <li><strong>Plus léger</strong>Un livrable nettement plus compact, moins gourmand en ressources.</li>
+                <li><strong>Plus rapide</strong>Des performances bien supérieures sur les traitements critiques.</li>
+                <li><strong>Plus sûr</strong>Les règles métier sont vérifiées dès la compilation, avant même la mise en production.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="mission">
+          <div class="mission-head">
+            <span class="tag">Modernisation &amp; cloud</span>
+            <h3>Cloudification d'applications PHP</h3>
+            <div class="stack"><span>PHP</span><span>Docker</span><span>Stateless</span><span>Cloud</span></div>
+          </div>
+          <div class="mission-body">
+            <div>
+              <h4>Le contexte</h4>
+              <p>Des applications PHP conçues pour tourner sur un serveur unique&nbsp;: sessions, fichiers et cache stockés en local. Impossible d'ajouter un deuxième serveur, et chaque panne devenait une interruption de service.</p>
+            </div>
+            <div>
+              <h4>Ce que j'ai fait</h4>
+              <p>Identification de tout ce qui reposait sur l'état local, puis externalisation&nbsp;: sessions, fichiers, cache, configuration. Conteneurisation des applications pour qu'elles deviennent <em>stateless</em> et déployables n'importe où.</p>
+            </div>
+            <div class="results">
+              <h4>Les bénéfices</h4>
+              <ul>
+                <li><strong>Scalable</strong>On ajoute ou retire des instances selon la charge.</li>
+                <li><strong>Résilient</strong>La perte d'un serveur n'interrompt plus le service.</li>
+                <li><strong>Pérenne</strong>Un code existant valorisé plutôt que jeté et réécrit.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="mission">
+          <div class="mission-head">
+            <span class="tag">Infrastructure</span>
+            <h3>Refonte des pipelines CI/CD et déploiement sur Kubernetes</h3>
+            <div class="stack"><span>CI/CD</span><span>Kubernetes</span><span>Conteneurs</span><span>Automatisation</span></div>
+          </div>
+          <div class="mission-body">
+            <div>
+              <h4>Le contexte</h4>
+              <p>Des chaînes de build et de déploiement accumulées au fil des années&nbsp;: lentes, fragiles, avec beaucoup d'étapes manuelles. Mettre en production était devenu un événement redouté.</p>
+            </div>
+            <div>
+              <h4>Ce que j'ai fait</h4>
+              <p>Refonte complète des pipelines&nbsp;: build, tests et livraison automatisés, puis déploiement sur une infrastructure Kubernetes moderne, avec des environnements reproductibles et des retours arrière simples.</p>
+            </div>
+            <div class="results">
+              <h4>Les bénéfices</h4>
+              <ul>
+                <li><strong>Des livraisons sereines</strong>Mettre en production devient une routine, plus un risque.</li>
+                <li><strong>Moins de manuel</strong>Moins d'erreurs humaines, plus de temps pour le produit.</li>
+                <li><strong>Infrastructure moderne</strong>Une base solide pour faire grandir les applications.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ AUTOMATISATION ══════════════════ -->
+  <section id="automatisation">
+    <div class="wrap auto-grid">
+      <div class="auto-text">
+        <span class="eyebrow">Automatisation &amp; workflows</span>
+        <h2>Le temps de vos équipes vaut mieux que du copier-coller.</h2>
+        <p>
+          Dans beaucoup d'entreprises, une partie du travail quotidien consiste à <strong>déplacer de l'information</strong>
+          d'un outil à un autre&nbsp;: ressaisir une commande dans la compta, exporter un fichier Excel pour le renvoyer ailleurs,
+          relancer un client à la main, compiler un tableau de bord chaque lundi matin…
+        </p>
+        <p>
+          Ces tâches sont lentes, ennuyeuses et sources d'erreurs. Bien souvent, elles peuvent être
+          <strong>automatisées, en tout ou partie</strong>, en connectant les logiciels que vous utilisez déjà
+          (ERP, CRM, comptabilité, e-commerce, messagerie, tableurs…) &mdash; sans forcément tout changer.
+        </p>
+        <p>
+          Mon rôle&nbsp;: comprendre votre processus tel qu'il est vraiment vécu sur le terrain,
+          repérer ce qui peut être automatisé de façon <strong>rentable</strong>, puis le mettre en place
+          de manière fiable, documentée et maintenable. Si l'automatisation ne vaut pas le coup, je vous le dirai.
+        </p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-primary">Me décrire un processus à automatiser</a>
+        </div>
+      </div>
+      <div class="examples" aria-label="Exemples d'automatisations">
+        <div class="example">
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          <div><p class="before">Ressaisir les commandes du site dans l'outil de gestion</p><p class="after">Synchronisation automatique entre vos logiciels</p></div>
+        </div>
+        <div class="example">
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          <div><p class="before">Préparer devis, factures ou rapports à la main</p><p class="after">Documents générés automatiquement à partir de vos données</p></div>
+        </div>
+        <div class="example">
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          <div><p class="before">Consolider des fichiers Excel envoyés par mail</p><p class="after">Imports, contrôles et consolidation automatisés</p></div>
+        </div>
+        <div class="example">
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          <div><p class="before">Surveiller des stocks, échéances ou anomalies</p><p class="after">Alertes envoyées au bon moment, à la bonne personne</p></div>
+        </div>
+        <div class="example">
+          <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          <div><p class="before">Compiler les indicateurs chaque semaine</p><p class="after">Tableau de bord à jour en permanence</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ ONE SHOT ══════════════════ -->
+  <section id="ponctuel">
+    <div class="wrap">
+      <div class="oneshot-head">
+        <div>
+          <span class="eyebrow">Missions ponctuelles</span>
+          <h2>Un besoin précis&nbsp;? Confiez-le moi, tout simplement.</h2>
+          <p class="lead">Pas besoin d'engager un grand projet. Vous avez une tâche bien délimitée, un problème qui traîne ou une échéance qui approche&nbsp;: je m'en occupe, de A à Z.</p>
+        </div>
+        <p class="note">
+          <strong>Comment ça marche&nbsp;?</strong> Vous m'expliquez le besoin, je vous propose un <strong>périmètre et un prix clairs</strong>, je réalise et je vous livre le résultat documenté. Pas d'engagement au-delà.
+        </p>
+      </div>
+      <div class="tasks">
+        <div class="task"><h3>Audit d'une application</h3><p>Un regard extérieur sur l'état de votre logiciel, ses risques et les priorités.</p></div>
+        <div class="task"><h3>Migration de données</h3><p>Passer d'un outil à un autre sans perdre ni corrompre vos données.</p></div>
+        <div class="task"><h3>Correctif urgent</h3><p>Un bug bloquant, un site en panne, un traitement qui ne passe plus.</p></div>
+        <div class="task"><h3>Montée de version</h3><p>PHP, framework, base de données, dépendances obsolètes ou vulnérables.</p></div>
+        <div class="task"><h3>Connecteur ou API</h3><p>Faire dialoguer deux logiciels qui ne se parlent pas.</p></div>
+        <div class="task"><h3>Script sur mesure</h3><p>Un traitement automatique, un import, un export, un nettoyage de données.</p></div>
+        <div class="task"><h3>Mise en place d'un déploiement</h3><p>Une chaîne CI/CD propre pour livrer sans stress.</p></div>
+        <div class="task"><h3>Second avis technique</h3><p>Valider un devis, un choix de prestataire ou une architecture avant d'investir.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ MÉTHODE ══════════════════ -->
+  <section id="methode">
+    <div class="wrap">
+      <span class="eyebrow">Comment on travaille ensemble</span>
+      <h2>Simple, transparent, sans surprise.</h2>
+      <ol class="steps">
+        <li class="step"><h3>On en parle</h3><p>Un premier échange gratuit, au téléphone, en visio ou autour d'un café à Nîmes, pour comprendre votre besoin.</p></li>
+        <li class="step"><h3>Je vous propose</h3><p>Un diagnostic honnête et une proposition chiffrée&nbsp;: ce qu'on fait, ce qu'on ne fait pas, et pourquoi.</p></li>
+        <li class="step"><h3>Je réalise</h3><p>Avec des points réguliers et des livraisons concrètes, pour que vous voyiez le projet avancer.</p></li>
+        <li class="step"><h3>Je vous transmets</h3><p>Code propre, documentation, passation à vos équipes&nbsp;: vous restez maître de votre outil.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══════════════════ LOCAL ══════════════════ -->
+  <section id="local">
+    <div class="wrap local-grid">
+      <div>
+        <span class="eyebrow">Basé à Nîmes</span>
+        <h2>Un développeur près de chez vous, dans tout le Gard.</h2>
+        <p class="lead">
+          Obiware est installée à Nîmes. Je travaille avec les entreprises, artisans, commerces, associations et
+          collectivités de tout le département &mdash; et au-delà quand le projet s'y prête.
+        </p>
+      </div>
+      <div class="towns-card">
+        <div class="big">Gard&nbsp;(30)</div>
+        <p class="big-sub">Nîmes et tout le département</p>
+        <ul class="towns">
+          <li class="home">Nîmes</li>
+          <li>Alès</li>
+          <li>Uzès</li>
+          <li>Beaucaire</li>
+          <li>Bagnols-sur-Cèze</li>
+          <li>Vauvert</li>
+          <li>Saint-Gilles</li>
+          <li>Sommières</li>
+          <li>Le Grau-du-Roi</li>
+          <li>Aigues-Mortes</li>
+          <li>Pont-Saint-Esprit</li>
+          <li>Villeneuve-lès-Avignon</li>
+          <li>Le Vigan</li>
+          <li>Marguerittes</li>
+          <li>Caissargues</li>
+          <li>Bouillargues</li>
         </ul>
       </div>
-      </div><!-- /.qr-grid -->
     </div>
   </section>
 
-  <!-- ══════════════════ 4 — PHRASE PRÉFÉRÉE ══════════════════ -->
-  <section id="quote">
+  <!-- ══════════════════ ARTICLES ══════════════════ -->
+  <section id="articles">
     <div class="wrap">
-      <p class="quote-label">Ma phrase préférée</p>
-      <blockquote>"ça dépend !"</blockquote>
-    </div>
-  </section>
-
-  <!-- ══════════════════ 5 — MES SITES ══════════════════ -->
-  <section class="cards-section" style="background: var(--white);">
-    <div class="wrap">
-      <span class="section-label">Mes sites</span>
-      <div class="cards-grid">
-
+      <span class="eyebrow">Ma façon de penser</span>
+      <h2>Mes articles</h2>
+      <div class="cards-grid c4">
         <article class="card">
-          <div class="card-ph"><img src="./assets/img/gtsoftware_vignette.JPG" alt="..." class="card-img" loading="lazy"></div>
+          <img src="./assets/img/article_controle_age_vignette.png" alt="" class="card-img" loading="lazy">
           <div class="card-body">
-            <p class="card-title">
-              <a href="https://gtsoftware.fr" target="_blank" rel="noopener noreferrer">Cabinet Gourdel &amp; Trébel Software</a>
-            </p>
-            <p class="card-desc">Le bureau d'études et d'ingénierie logicielle où je travaille.</p>
+            <p class="card-kind">Article</p>
+            <p class="card-title"><a href="https://www.linkedin.com/pulse/contr%C3%B4le-de-l%C3%A2ge-en-ligne-franceconnect-smart-poc-dune-gourdel-kcm7f/" target="_blank" rel="noopener noreferrer">Contrôle de l'âge en ligne, FranceConnect &amp; Smart Contracts&nbsp;: POC d'une solution technique simple mais robuste</a></p>
           </div>
         </article>
-
         <article class="card">
-          <div class="card-ph"><img src="./assets/img/somnia_vignette.JPG" alt="..." class="card-img" loading="lazy"></div>
+          <img src="./assets/img/article_taxonomie_vignette.png" alt="" class="card-img" loading="lazy">
           <div class="card-body">
-            <p class="card-title">
-              <a href="https://obiware.fr/somnia/" target="_blank" rel="noopener noreferrer">Somnia</a>
-            </p>
-            <p class="card-desc">Un petit jeu sur mobile pour se détendre, relaxer et ralentir.</p>
+            <p class="card-kind">Article</p>
+            <p class="card-title"><a href="https://www.linkedin.com/pulse/software-taxonomie-des-types-de-changement-un-cadre-pour-gourdel-v6pif/" target="_blank" rel="noopener noreferrer">Taxonomie des types de changement&nbsp;: un cadre pour une meilleure collaboration tech-produit</a></p>
           </div>
         </article>
-
+        <article class="card">
+          <img src="./assets/img/article_valeur_ajoutee_vignette.png" alt="" class="card-img" loading="lazy">
+          <div class="card-body">
+            <p class="card-kind">Article</p>
+            <p class="card-title"><a href="https://www.linkedin.com/pulse/d%C3%A9veloppement-software-expertise-valeur-ajout%C3%A9e-et-ia-gourdel-klu0f/" target="_blank" rel="noopener noreferrer">Développement Software&nbsp;: Expertise, Valeur ajoutée et IA, rien n'a changé.</a></p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="./assets/img/article_quiproquo_vignette.png" alt="" class="card-img" loading="lazy">
+          <div class="card-body">
+            <p class="card-kind">Article</p>
+            <p class="card-title"><a href="https://www.linkedin.com/pulse/le-fl%C3%A9au-des-quiproquos-dans-d%C3%A9veloppement-de-produit-gourdel-39ilf/" target="_blank" rel="noopener noreferrer">Le fléau des quiproquos dans le développement de produit IT</a></p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════ 6 — MES ARTICLES ══════════════════ -->
-  <section class="cards-section" style="background: var(--paper);">
+  <!-- ══════════════════ VIDÉOS ══════════════════ -->
+  <section id="videos">
     <div class="wrap">
-      <span class="section-label">Mes articles</span>
-      <div class="cards-grid">
-
+      <span class="eyebrow">On en parle en vidéo</span>
+      <h2>Mes passages en vidéo</h2>
+      <div class="cards-grid c3">
         <article class="card">
-          <div class="card-ph"><img src="./assets/img/article_controle_age_vignette.png" alt="..." class="card-img" loading="lazy"></div>
+          <img src="https://img.youtube.com/vi/9sDAZRGGtJk/hqdefault.jpg" alt="" class="card-img" loading="lazy">
           <div class="card-body">
-            <p class="card-title">
-              <a href="https://www.linkedin.com/pulse/contr%C3%B4le-de-l%C3%A2ge-en-ligne-franceconnect-smart-poc-dune-gourdel-kcm7f/" target="_blank" rel="noopener noreferrer">Contrôle de l'âge en ligne, FranceConnect &amp; Smart Contracts&nbsp;: POC d'une solution technique simple mais robuste</a>
-            </p>
+            <p class="card-kind">Vidéo</p>
+            <p class="card-title"><a href="https://www.youtube.com/watch?v=9sDAZRGGtJk" target="_blank" rel="noopener noreferrer">Entretien sur le legacy avec Le Permacodeur</a></p>
           </div>
         </article>
-
         <article class="card">
-          <div class="card-ph"><img src="./assets/img/article_taxonomie_vignette.png" alt="..." class="card-img" loading="lazy"></div>
+          <img src="https://img.youtube.com/vi/StEPjYJG-RE/hqdefault.jpg" alt="" class="card-img" loading="lazy">
           <div class="card-body">
-            <p class="card-title">
-              <a href="https://www.linkedin.com/pulse/software-taxonomie-des-types-de-changement-un-cadre-pour-gourdel-v6pif/" target="_blank" rel="noopener noreferrer">Taxonomie des types de changement&nbsp;: un cadre pour une meilleure collaboration tech-produit</a>
-            </p>
+            <p class="card-kind">Vidéo</p>
+            <p class="card-title"><a href="https://www.youtube.com/watch?v=StEPjYJG-RE" target="_blank" rel="noopener noreferrer">MACI #70 Plus de navigateurs sur iOS car le télétravail est un enfer à facturer</a></p>
           </div>
         </article>
-
         <article class="card">
-          <div class="card-ph"><img src="./assets/img/article_valeur_ajoutee_vignette.png" alt="..." class="card-img" loading="lazy"></div>
+          <img src="https://img.youtube.com/vi/vfz0Z_5NsLw/hqdefault.jpg" alt="" class="card-img" loading="lazy">
           <div class="card-body">
-            <p class="card-title">
-              <a href="https://www.linkedin.com/pulse/d%C3%A9veloppement-software-expertise-valeur-ajout%C3%A9e-et-ia-gourdel-klu0f/" target="_blank" rel="noopener noreferrer">Développement Software&nbsp;: Expertise, Valeur ajoutée et IA, rien n'a changé.</a>
-            </p>
+            <p class="card-kind">Vidéo</p>
+            <p class="card-title"><a href="https://www.youtube.com/watch?v=vfz0Z_5NsLw" target="_blank" rel="noopener noreferrer">MACI #69 Roland Garros force Nvidia à libérer ses sources</a></p>
           </div>
         </article>
-
-        <article class="card">
-          <div class="card-ph"><img src="./assets/img/article_quiproquo_vignette.png" alt="..." class="card-img" loading="lazy"></div>
-          <div class="card-body">
-            <p class="card-title">
-              <a href="https://www.linkedin.com/pulse/le-fl%C3%A9au-des-quiproquos-dans-d%C3%A9veloppement-de-produit-gourdel-39ilf/" target="_blank" rel="noopener noreferrer">Le fléau des quiproquos dans le développement de produit IT</a>
-            </p>
-          </div>
-        </article>
-
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════ 7 — MES VIDÉOS ══════════════════ -->
-  <section class="cards-section" style="background: var(--white);">
+  <!-- ══════════════════ CONTACT ══════════════════ -->
+  <section id="contact">
     <div class="wrap">
-      <span class="section-label">Mes passages en vidéo</span>
-      <div class="cards-grid">
-
-        <article class="card">
-          <img
-            src="https://img.youtube.com/vi/9sDAZRGGtJk/hqdefault.jpg"
-            alt="Entretien sur le legacy avec Le Permacodeur"
-            class="card-img"
-            loading="lazy"
-          >
-          <div class="card-body">
-            <p class="card-title">
-              <a href="https://www.youtube.com/watch?v=9sDAZRGGtJk" target="_blank" rel="noopener noreferrer">Entretien sur le legacy avec Le Permacodeur</a>
-            </p>
-          </div>
-        </article>
-
-        <article class="card">
-          <img
-            src="https://img.youtube.com/vi/StEPjYJG-RE/hqdefault.jpg"
-            alt="MACI #70"
-            class="card-img"
-            loading="lazy"
-          >
-          <div class="card-body">
-            <p class="card-title">
-              <a href="https://www.youtube.com/watch?v=StEPjYJG-RE" target="_blank" rel="noopener noreferrer">MACI #70 Plus de navigateurs sur iOS car le télétravail est un enfer à facturer</a>
-            </p>
-          </div>
-        </article>
-
-        <article class="card">
-          <img
-            src="https://img.youtube.com/vi/vfz0Z_5NsLw/hqdefault.jpg"
-            alt="MACI #69"
-            class="card-img"
-            loading="lazy"
-          >
-          <div class="card-body">
-            <p class="card-title">
-              <a href="https://www.youtube.com/watch?v=vfz0Z_5NsLw" target="_blank" rel="noopener noreferrer">MACI #69 Roland Garros force Nvidia à libérer ses sources</a>
-            </p>
-          </div>
-        </article>
-
+      <span class="eyebrow">Contact</span>
+      <h2>Un projet, une question, un doute&nbsp;? Parlons-en.</h2>
+      <p class="lead">Décrivez-moi votre situation en quelques lignes&nbsp;: je vous réponds rapidement, et le premier échange ne vous engage à rien.</p>
+      <div class="contact-ctas">
+        <a href="mailto:alexandre.gourdel@obiware.fr" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+          alexandre.gourdel@obiware.fr
+        </a>
+        <a href="https://www.linkedin.com/in/alexandre-gourdel-031aa0124/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg>
+          LinkedIn
+        </a>
+        <!-- Téléphone à ajouter plus tard :
+        <a href="tel:+33XXXXXXXXX" class="btn btn-ghost">06 XX XX XX XX</a>
+        -->
       </div>
+      <p class="contact-meta">Obiware - Alexandre Gourdel EI · Nîmes, Gard (30)</p>
     </div>
   </section>
+
+  </main>
 
   <!-- ══════════════════ FOOTER ══════════════════ -->
   <footer>
-    <p style="color:rgb(208 159 68);">Alexandre Gourdel &mdash; <a href="mailto:alexandre.gourdel@obiware.fr">alexandre.gourdel@obiware.fr</a></p>
+    <div class="wrap">
+      <div>
+        <p><strong>Obiware - Alexandre Gourdel EI</strong></p>
+        <p>Développement logiciel à Nîmes · SIRET 489 268 052 00060</p>
+        <p><a href="mailto:alexandre.gourdel@obiware.fr">alexandre.gourdel@obiware.fr</a> · <a href="https://www.linkedin.com/in/alexandre-gourdel-031aa0124/" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+      </div>
+      <details>
+        <summary>Mentions légales</summary>
+        <p><strong>Éditeur&nbsp;:</strong> Alexandre Gourdel, entrepreneur individuel (EI), nom commercial Obiware. SIRET 489 268 052 00060. Nîmes (30), France.</p>
+        <p><strong>Contact&nbsp;:</strong> alexandre.gourdel@obiware.fr</p>
+        <p><strong>Directeur de la publication&nbsp;:</strong> Alexandre Gourdel.</p>
+        <p><strong>Hébergement&nbsp;:</strong> GitHub Pages &mdash; GitHub, Inc., 88 Colton Street, San Francisco, CA 94107, États-Unis.</p>
+        <p>Ce site n'utilise aucun cookie ni outil de suivi.</p>
+      </details>
+    </div>
   </footer>
 
 </body>
